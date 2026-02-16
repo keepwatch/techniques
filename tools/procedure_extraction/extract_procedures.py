@@ -1,6 +1,7 @@
 import os
 import re
 import csv
+import json
 import sys
 
 def extract_procedures_from_readme(filepath):
@@ -10,13 +11,6 @@ def extract_procedures_from_readme(filepath):
     """
     with open(filepath, 'r', encoding='utf-8') as f:
         content = f.read()
-
-    # extract Environment
-    parts = filepath.split(os.sep)
-    if len(parts) >= 2:
-        environment = parts[-2]
-    else:
-        environment = "unknown"
 
     # extract Metadata
     metadata_match = re.search(r'## Metadata\s*\n+((?:.*\|.*\n)+)', content, re.MULTILINE)
@@ -167,17 +161,18 @@ def extract_procedures_from_readme(filepath):
 
         results.append({
             'Technique ID': technique_id,
-            'Environment': environment,
+            'External Technique ID': primary_external_id,
             'Procedure ID': proc_id,
             'Procedure Title': proc_data['title'],
-            'Test Link': test_ids_str
+            'Test ID': test_ids_str
         })
 
     return results
 
 def main():
     root_dir = 'reports'
-    output_file = 'tools/procedure_extraction/procedures.csv'
+    csv_file = 'tools/procedure_extraction/procedures.csv'
+    json_file = 'tools/procedure_extraction/procedures.json'
 
     all_procedures = []
 
@@ -193,14 +188,21 @@ def main():
 
     all_procedures.sort(key=lambda x: (x['Technique ID'], x['Procedure ID']))
 
-    fieldnames = ['Technique ID', 'Environment', 'Procedure ID', 'Procedure Title', 'Test Link']
+    # Write CSV
+    fieldnames = ['Technique ID', 'External Technique ID', 'Procedure ID', 'Procedure Title', 'Test ID']
 
-    with open(output_file, 'w', newline='', encoding='utf-8') as csvfile:
+    with open(csv_file, 'w', newline='', encoding='utf-8') as csvfile:
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
         writer.writeheader()
         writer.writerows(all_procedures)
 
-    print(f"Successfully extracted {len(all_procedures)} procedures to {output_file}")
+    print(f"Successfully wrote {len(all_procedures)} procedures to {csv_file}")
+
+    # Write JSON
+    with open(json_file, 'w', encoding='utf-8') as jsonfile:
+        json.dump(all_procedures, jsonfile, indent=4)
+
+    print(f"Successfully wrote {len(all_procedures)} procedures to {json_file}")
 
 if __name__ == "__main__":
     main()
