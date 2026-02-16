@@ -1,0 +1,282 @@
+[
+    {
+        "Technique ID": "TRR0000",
+        "External Technique ID": "T1564.006",
+        "Procedure ID": "TRR0000.WIN.A",
+        "Procedure Title": "Execute VM via Hyper-V",
+        "Test ID": "T1564.006.AT3"
+    },
+    {
+        "Technique ID": "TRR0000",
+        "External Technique ID": "T1564.006",
+        "Procedure ID": "TRR0000.WIN.B",
+        "Procedure Title": "Execute VM via Windows Sandbox",
+        "Test ID": ""
+    },
+    {
+        "Technique ID": "TRR0011",
+        "External Technique ID": "T1003.006",
+        "Procedure ID": "TRR0011.AD.A",
+        "Procedure Title": "Request replication from a DC",
+        "Test ID": "T1003.006.AT1, T1003.006.AT2"
+    },
+    {
+        "Technique ID": "TRR0012",
+        "External Technique ID": "T1558.004",
+        "Procedure ID": "TRR0012.AD.A",
+        "Procedure Title": "Enumerate Accounts Lacking Pre-Authentication via LDAP",
+        "Test ID": "T1558.004.AT1, T1558.004.AT2, T1558.004.AT3"
+    },
+    {
+        "Technique ID": "TRR0012",
+        "External Technique ID": "T1558.004",
+        "Procedure ID": "TRR0012.AD.B",
+        "Procedure Title": "Enumerate Accounts Lacking Pre-Authentication via ADWS",
+        "Test ID": ""
+    },
+    {
+        "Technique ID": "TRR0012",
+        "External Technique ID": "T1558.004",
+        "Procedure ID": "TRR0012.AD.C",
+        "Procedure Title": "Test All Accounts for Pre-Authentication Status",
+        "Test ID": ""
+    },
+    {
+        "Technique ID": "TRR0012",
+        "External Technique ID": "T1558.004",
+        "Procedure ID": "TRR0012.AD.D",
+        "Procedure Title": "Intercept AS Messages on the Network",
+        "Test ID": ""
+    },
+    {
+        "Technique ID": "TRR0013",
+        "External Technique ID": "T1558.001",
+        "Procedure ID": "TRR0013.AD.A",
+        "Procedure Title": "Forge a TGT from scratch (Golden Ticket)",
+        "Test ID": "T1558.001.AT1, T1558.001.AT2"
+    },
+    {
+        "Technique ID": "TRR0013",
+        "External Technique ID": "T1558.001",
+        "Procedure ID": "TRR0013.AD.B",
+        "Procedure Title": "Forge TGT using PAC acquired via U2U+S4U2Self (Sapphire Ticket)",
+        "Test ID": ""
+    },
+    {
+        "Technique ID": "TRR0014",
+        "External Technique ID": "T1207",
+        "Procedure ID": "TRR0014.AD.A",
+        "Procedure Title": "Insert a rogue DC",
+        "Test ID": "T1207.AT1"
+    },
+    {
+        "Technique ID": "TRR0015",
+        "External Technique ID": "T1003.003",
+        "Procedure ID": "TRR0015.WIN.A",
+        "Procedure Title": "Volume shadow copy access",
+        "Test ID": "T1003.003.AT1, T1003.003.AT2, T1003.003.AT3, T1003.003.AT4, T1003.003.AT5, T1003.003.AT6, T1003.003.AT7, T1003.003.AT8, T1003.003.AT9"
+    },
+    {
+        "Technique ID": "TRR0015",
+        "External Technique ID": "T1003.003",
+        "Procedure ID": "TRR0015.WIN.B",
+        "Procedure Title": "Raw disk access",
+        "Test ID": ""
+    },
+    {
+        "Technique ID": "TRR0016",
+        "External Technique ID": "T1218.005",
+        "Procedure ID": "TRR0016.WIN.A",
+        "Procedure Title": "Mshta executing HTA files or inline scripts",
+        "Test ID": "T1218.005.AT1, T1218.005.AT2, T1218.005.AT3, T1218.005.AT4, T1218.005.AT5, T1218.005.AT6, T1218.005.AT8, T1218.005.AT9, T1218.005.AT10"
+    },
+    {
+        "Technique ID": "TRR0016",
+        "External Technique ID": "T1218.005",
+        "Procedure ID": "TRR0016.WIN.B",
+        "Procedure Title": "RunDll32 calling RunHTMLApplication from mshtml.dll",
+        "Test ID": "T1218.005.AT7"
+    },
+    {
+        "Technique ID": "TRR0017",
+        "External Technique ID": "T1200",
+        "Procedure ID": "TRR0017.WIN.A",
+        "Procedure Title": "Hardware-based keystroke logging",
+        "Test ID": ""
+    },
+    {
+        "Technique ID": "TRR0017",
+        "External Technique ID": "T1200",
+        "Procedure ID": "TRR0017.WIN.B",
+        "Procedure Title": "Keystroke injection",
+        "Test ID": ""
+    },
+    {
+        "Technique ID": "TRR0017",
+        "External Technique ID": "T1200",
+        "Procedure ID": "TRR0017.WIN.C",
+        "Procedure Title": "Clandestine data transfer",
+        "Test ID": ""
+    },
+    {
+        "Technique ID": "TRR0018",
+        "External Technique ID": "T1558.003",
+        "Procedure ID": "TRR0018.AD.A",
+        "Procedure Title": "Enumerate SPNs with LDAP",
+        "Test ID": "T1558.003.AT1, T1558.003.AT2, T1558.003.AT3, T1558.003.AT5, T1558.003.AT6, T1558.003.AT7"
+    },
+    {
+        "Technique ID": "TRR0018",
+        "External Technique ID": "T1558.003",
+        "Procedure ID": "TRR0018.AD.B",
+        "Procedure Title": "Enumerate SPNs with ADWS",
+        "Test ID": ""
+    },
+    {
+        "Technique ID": "TRR0018",
+        "External Technique ID": "T1558.003",
+        "Procedure ID": "TRR0018.AD.C",
+        "Procedure Title": "Intercept Tickets On the Network",
+        "Test ID": ""
+    },
+    {
+        "Technique ID": "TRR0018",
+        "External Technique ID": "T1558.003",
+        "Procedure ID": "TRR0018.AD.D",
+        "Procedure Title": "Harvest Tickets off Endpoints",
+        "Test ID": ""
+    },
+    {
+        "Technique ID": "TRR0019",
+        "External Technique ID": "T1114.002",
+        "Procedure ID": "TRR0019.EXO.A",
+        "Procedure Title": "Valid Credentials",
+        "Test ID": "T1114.002.AT1"
+    },
+    {
+        "Technique ID": "TRR0019",
+        "External Technique ID": "T1114.002",
+        "Procedure ID": "TRR0019.EXO.B",
+        "Procedure Title": "API Access as an Application",
+        "Test ID": ""
+    },
+    {
+        "Technique ID": "TRR0019",
+        "External Technique ID": "T1114.002",
+        "Procedure ID": "TRR0019.EXO.C",
+        "Procedure Title": "eDiscovery",
+        "Test ID": ""
+    },
+    {
+        "Technique ID": "TRR0019",
+        "External Technique ID": "T1114.002",
+        "Procedure ID": "TRR0019.EXO.D",
+        "Procedure Title": "Mailbox Delegation",
+        "Test ID": "T1098.002.AT1"
+    },
+    {
+        "Technique ID": "TRR0019",
+        "External Technique ID": "T1114.002",
+        "Procedure ID": "TRR0019.EXO.E",
+        "Procedure Title": "Export Mailbox",
+        "Test ID": ""
+    },
+    {
+        "Technique ID": "TRR0020",
+        "External Technique ID": "T1098.001",
+        "Procedure ID": "TRR0020.AZR.A",
+        "Procedure Title": "Add credentials",
+        "Test ID": "T1098.001.AT1, T1098.001.AT2"
+    },
+    {
+        "Technique ID": "TRR0020",
+        "External Technique ID": "T1098.001",
+        "Procedure ID": "TRR0020.AZR.B",
+        "Procedure Title": "Add owner",
+        "Test ID": ""
+    },
+    {
+        "Technique ID": "TRR0020",
+        "External Technique ID": "T1098.001",
+        "Procedure ID": "TRR0020.AZR.C",
+        "Procedure Title": "Add role",
+        "Test ID": "T1098.003.AT1, T1098.003.AT2, T1098.AT5, T1098.AT7"
+    },
+    {
+        "Technique ID": "TRR0020",
+        "External Technique ID": "T1098.001",
+        "Procedure ID": "TRR0020.AZR.D",
+        "Procedure Title": "Add API permissions",
+        "Test ID": "T1098.AT8"
+    },
+    {
+        "Technique ID": "TRR0021",
+        "External Technique ID": "T1136.003",
+        "Procedure ID": "TRR0021.AZR.A",
+        "Procedure Title": "Create guest account",
+        "Test ID": ""
+    },
+    {
+        "Technique ID": "TRR0022",
+        "External Technique ID": "T1496.004",
+        "Procedure ID": "TRR0022.AZR.A",
+        "Procedure Title": "Hijack via an external guest user",
+        "Test ID": ""
+    },
+    {
+        "Technique ID": "TRR0022",
+        "External Technique ID": "T1496.004",
+        "Procedure ID": "TRR0022.AZR.B",
+        "Procedure Title": "Hijack via an internal user",
+        "Test ID": ""
+    },
+    {
+        "Technique ID": "TRR0023",
+        "External Technique ID": "T1070.001",
+        "Procedure ID": "TRR0023.WIN.A",
+        "Procedure Title": "Event Clearing via RPC Call",
+        "Test ID": "T1070.001.AT1, T1070.001.AT2, T1070.001.AT3"
+    },
+    {
+        "Technique ID": "TRR0023",
+        "External Technique ID": "T1070.001",
+        "Procedure ID": "TRR0023.WIN.B",
+        "Procedure Title": "Event Logging Process Termination",
+        "Test ID": ""
+    },
+    {
+        "Technique ID": "TRR0023",
+        "External Technique ID": "T1070.001",
+        "Procedure ID": "TRR0023.WIN.C",
+        "Procedure Title": "Event Log File Redirection",
+        "Test ID": ""
+    },
+    {
+        "Technique ID": "TRR0024",
+        "External Technique ID": "T1550.003",
+        "Procedure ID": "TRR0024.WIN.A",
+        "Procedure Title": "Submit ticket to local cache",
+        "Test ID": "T1550.003.AT1, T1550.003.AT2"
+    },
+    {
+        "Technique ID": "TRR0025",
+        "External Technique ID": "T1055.004",
+        "Procedure ID": "TRR0025.WIN.A",
+        "Procedure Title": "Queue Remote APC",
+        "Test ID": "T1055.004.AT1, T1055.004.AT2, T1055.004.AT3"
+    },
+    {
+        "Technique ID": "TRR0026",
+        "External Technique ID": "T1055.005",
+        "Procedure ID": "TRR0026.WIN.A",
+        "Procedure Title": "Malicious TLS Callback",
+        "Test ID": ""
+    },
+    {
+        "Technique ID": "TRR0027",
+        "External Technique ID": "T1546.003",
+        "Procedure ID": "TRR0027.WIN.A",
+        "Procedure Title": "Create a WMI Event Subscription",
+        "Test ID": "T1546.003.AT1, T1546.003.AT2, T1546.003.AT3"
+    }
+]
