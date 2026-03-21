@@ -47,14 +47,25 @@ Include both explicitly-named techniques and behaviors that imply a technique
 
 ---
 
-## Step 3 — Load TRR data
+## Step 3 — Find matching TRRs (fast path via MCP)
 
-Read these two files from the repository:
+Use the `trr` MCP server's `search_trrs` tool to find matching TRRs. Do not
+read `index.json` or `procedures.json` directly.
 
-1. `index.json` — TRR metadata: names, tactics, platforms, external ATT&CK
-   IDs, and procedure summaries
-2. `tools/procedure_extraction/procedures.json` — procedure-level detail
-   including emulation test IDs (Atomic Red Team test references)
+For each technique identified in Step 2, call `search_trrs` with the most
+specific filters you have:
+
+- Pass `attack_ids` if the article mentions explicit ATT&CK IDs
+- Pass `keywords` for behavioral descriptions (e.g. "replication", "golden
+  ticket", "shadow copy")
+- Pass `tactic` and `platform` to narrow results when you have them
+
+You may call `search_trrs` multiple times with different filter combinations
+to cover all techniques. Deduplicate results by TRR ID.
+
+The tool returns TRR IDs, names, tactics, platforms, external ATT&CK IDs,
+procedure titles, and emulation test IDs — everything needed for a confident
+match.
 
 ---
 
@@ -81,10 +92,25 @@ reasonable match.
 
 ---
 
-## Step 5 — Build the results
+## Step 5 — Resolve uncertain matches (on-demand procedure detail)
 
-For each matched TRR, look up its procedures in `procedures.json`. For each
-procedure, note whether an emulation test is available (non-empty `Test ID`).
+After Step 3, you will have one of:
+
+- **High confidence**: an ATT&CK ID in the article maps directly to a TRR's
+  `external_ids`. No further reading needed.
+- **Medium confidence**: the TRR name or procedure title is a strong semantic
+  match. Proceed to output unless ambiguous.
+- **Uncertain**: multiple TRRs could apply, or the technique is described
+  vaguely. For these cases **only**, call `get_procedure_detail` with the
+  candidate TRR ID(s).
+
+`get_procedure_detail` returns only the `## Procedures` and
+`## Available Emulation Tests` sections of the TRR README — the procedure
+narratives needed to confirm or rule out a match. It does not return Technical
+Background or Technique Overview.
+
+Do **not** call `get_procedure_detail` for every TRR — only for uncertain
+cases.
 
 ---
 
