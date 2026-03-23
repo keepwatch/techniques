@@ -31,7 +31,7 @@ procedures not covered here.
 #### Enable Hyper-V
 
 There are two documented ways to enable Hyper-V, but the key is that they both
-require service changes, per [MSFT documentation][ref-3]:
+require service changes, per [Microsoft (MSFT) documentation][ref-3]:
 
 - Requires a reboot:
   ```powershell
@@ -43,7 +43,7 @@ require service changes, per [MSFT documentation][ref-3]:
   ```
 
 Event ID 7045 is a log entry that indicates a new service has been installed on
-the system ([src][ref-4]).
+the system[^ref-4].
 
 #### Import VM to Hyper-V
 
@@ -67,6 +67,7 @@ Note that 18500 and 15130 are not part of the traditional Windows event logs
 system (and likely will require explicit collection decisions). The full path to
 these logs is: Applications and Services Logs > Microsoft > Windows >
 Hyper-V-Worker > Admin, or on-disk:
+
 ```text
 C:\Windows\System32\winevt\Logs\Microsoft-Windows-Hyper-V-Worker%4Admin.evtx
 ```
@@ -79,12 +80,11 @@ proxy for VM start if other logs are unavailable.
 
 ##### Monitor VM connection via Registry artifacts
 
-"When a Hyper-V [VM]is started, the extensible switch interface creates a port
+"When a Hyper-V VM is started, the extensible switch interface creates a port
 before the virtual machine (VM) network adapter is exposed within the guest
-operating system" ([src][ref-8]). The technical artifact of that change is VMMS
-creates new GUID-labeled Registry keys under the switch for each "port" in use
-(by default one) ([src][ref-9]), and deletes the ports when the VM stops
-([src][ref-10]). Therefore, a network-enabled VM starting will create a Registry
+operating system"[^ref-8]. The technical artifact of that change is that the Virtual
+Machine Management Service (VMMS) creates new GUID-labeled Registry keys under the switch for each "port" in use
+(by default one)[^ref-9], and deletes the ports when the VM stops[^ref-10]. Therefore, a network-enabled VM starting will create a Registry
 key underneath one of the switch ports (either the default switch, or a custom
 switch) - the advantage for us is we can merely monitor at the appropriate
 depth:
@@ -96,6 +96,7 @@ HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\VMSMP\Parameters\SwitchList
 The Hyper-V Virtual Switch Management Protocol (VMSMP) stores the configuration
 for its virtual switches and all the ports connected to them underneath a
 registry key:
+
 ```text
 HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\VMSMP\Parameters\SwitchList
 ```
@@ -118,13 +119,13 @@ HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\VMSMP\Parameters\SwitchList
 ```
 
 There is a "Default Switch" which is automatically enabled when you enable the
-service on Windows 10 and 11([src][ref-11]). On Windows Server, this must be
-enabled manually ([src][ref-12]). These registry keys can be used to determine
+service on Windows 10 and 11[^ref-11]. On Windows Server, this must be
+enabled manually[^ref-12]. These registry keys can be used to determine
 if network connectivity is possible from Hyper-V VMs.
 
 ##### Monitor VM connection via Event logs
 
-Event ID 232 captures the "network connection" event ([src][ref-13]) (equivalent
+Event ID 232 captures the "network connection" event[^ref-13] (equivalent
 to plugging an Ethernet cable into a device, but virtually here). The below is a
 sample event, derived from [this troubleshooting article][ref-14] (search for
 232).
@@ -138,6 +139,7 @@ NIC C0470977-2D74-4F23-B695-B60A74E5100A (Friendly Name: MyTestVM_Network_Adapte
 - Option 1: `Get-VM -Id "<guid>"`
 - Option 2 (use VMCX config file)
   - Navigate to:
+
     ```text
     C:\ProgramData\Microsoft\Windows\Hyper-V\Virtual Machines\
     ```
@@ -157,7 +159,7 @@ The primary indicator is the execution of the manager process.
 - `CmProxy.exe` / `CmProxyD.exe`: Container Manager Proxy, often seen handling
   RDP connections to the sandbox.
 
-**Command-line interface** (optional) ([src][ref-15])
+**Command-line interface** (optional)[^ref-15]
 
 - `wsb start` with configuration:
   ```text
@@ -172,7 +174,7 @@ The primary indicator is the execution of the manager process.
   wsb exec –-id 12345678-1234-1234-1234-1234567890AB -c app.exe -r System
   ```
 
-**Event Logs**: ([src][ref-16])
+**Event Logs**[^ref-16]:
 
 - Windows Sandbox session start: `Event ID 39` in the `AppModel-Runtime` channel
 - Windows Sandbox session end: `Event ID 41` in the `AppModel-Runtime` channel
@@ -185,7 +187,7 @@ The primary indicator is the execution of the manager process.
 
 Like Hyper-V, this feature must be enabled if not already present.
 
-**Commands:** ([src][ref-17])
+**Commands**[^ref-17]:
 
 - PowerShell:
   ```powershell
@@ -204,21 +206,20 @@ Like Hyper-V, this feature must be enabled if not already present.
     HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Component Based Servicing\Packages\Containers-DisposableClientVM*
     ```
   - `HKLM\SYSTEM\CurrentControlSet\Services\CmService`: The *Container Manager
-    Service* which is required for Sandbox execution. ([src][ref-18])
+    Service* which is required for Sandbox execution.[^ref-18]
 - **Services**:
   - `CmService` (Container Manager Service): This service manages the lifecycle
     of containers and is essential for Windows Sandbox. Its startup type may
-    change to specific/automatic when the feature is enabled. ([src][ref-18])
+    change to specific/automatic when the feature is enabled.[^ref-18]
 - **Events**:
   - `Event ID 9` in the `Setup` log fires when the feature has been enabled (and
-    the PC has restarted) ([src][ref-16])
+    the PC has restarted)[^ref-16]
 
 #### Configuration Files (.wsb)
 
 Windows Sandbox can be customized using `.wsb` files (XML format). These files
 are critical forensic artifacts because they define mapped folders
-(host-to-guest), logon commands (what runs on start), and network settings
-([src][ref-19]). Technically, the sandbox can be configured with the `wsb` CLI
+(host-to-guest), logon commands (what runs on start), and network settings[^ref-19]. Technically, the sandbox can be configured with the `wsb` CLI
 as well, so these are not mandatory (but can be very informative)!
 
 - **Extension**: `*.wsb`
@@ -405,3 +406,16 @@ level: informational
 [ref-19]: https://learn.microsoft.com/en-us/windows/security/application-security/application-isolation/windows-sandbox/windows-sandbox-configure-using-wsb-file
 [ref-20]: https://sigmahq.io/docs/digging-deeper/pipelines.html#query-expression-placeholders
 [ref-21]: https://www.atomicredteam.io/atomic-red-team/atomics/T1564.006#atomic-test-3---create-and-start-hyper-v-virtual-machine
+
+[^ref-4]: [Splunk: Event ID 7045][ref-4]
+[^ref-8]: [Microsoft Learn: Overview of Hyper-V Extensible Switch Ports][ref-8]
+[^ref-9]: [Rlevchenko: Hyper-V 3.0 interaction with registry][ref-9]
+[^ref-10]: [Kickthatcomputer: Hyper-V failed to update configuration for port][ref-10]
+[^ref-11]: [YouTube: How to set up Default Switch in Hyper-V][ref-11]
+[^ref-12]: [YouTube: How to Enable Default Switch in Hyper-V Server][ref-12]
+[^ref-13]: [Hatena Blog: Event ID 232][ref-13]
+[^ref-15]: [Microsoft Learn: Windows Sandbox configuration][ref-15]
+[^ref-16]: [HackTheBox: Windows Sandbox Data Exfiltration Attack Forensics][ref-16]
+[^ref-17]: [Microsoft Learn: Windows Sandbox overview][ref-17]
+[^ref-18]: [Check Point Research: Playing in the Windows Sandbox][ref-18]
+[^ref-19]: [Microsoft Learn: Windows Sandbox configuration file][ref-19]
