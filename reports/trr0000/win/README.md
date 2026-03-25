@@ -274,41 +274,6 @@ from the non-default `Microsoft-Windows-Hyper-V-Worker-Admin` channel. Service
 creation events (7045/4697) are also modeled but are less unique to this
 technique and more likely to produce false positives.
 
-#### Example Sigma Rules - Procedure A
-
-The below rule could be implemented in several different ways:
-
-- With an exclusion list, using Sigma `expand` and [pipelines][ref-21] (ideally
-  we'd use a non-hostname property, like "network zone", as the list of
-  hostnames that should run Hyper-V could be quite long)
-- As a `level: informational` rule, combined with external-to-Sigma
-  post-processing to make the rule viable
-
-```sigma
-title: Hyper-V VM started on unexpected host
-id: 9a1b7ad8-7829-42f7-a685-667366d0fc2b
-status: test
-description: Adversaries can use Hyper-V VMs to conceal malicious activity from on-host security monitoring
-references:
-     - <replace-with-trr-link>
-author: Jordan Anderson (iwillkeepwatch)
-date: 2026-01-23
-tags:
-    - attack.defense-evasion
-    - attack.t1564.006
-logsource:
-    product: windows
-    category: process_create
-detection:
-    selection:
-        Image|endswith: "*\\vmwp.exe"
-        Hostname|expand: %non_hyper-v_hosts%
-    condition: selection
-falsepositives:
-    - Systems that legitimately run Hyper-V, like developer devices
-level: medium
-```
-
 ### Procedure B: Execute VM via Windows Sandbox
 
 Windows Sandbox provides a lightweight desktop environment to safely run
@@ -320,39 +285,6 @@ boundary.
 #### Detection Data Model - Procedure B
 
 ![Procedure B DDM](ddms/execute-malicious-vm-on-host_procedure-b_ddm.png)
-
-#### Example Sigma Rules - Procedure B
-
-The below rule could be implemented in several different ways:
-
-- With an exclusion list, using Sigma `expand` and [pipelines][ref-20] (ideally
-  we'd use a non-hostname property, like "network zone", as the list of
-  hostnames that should run Hyper-V could be quite long)
-- As a `level: informational` rule, combined with external-to-Sigma
-  post-processing to make the rule viable
-
-```sigma
-title: Windows Sandbox Execution
-id: 5f1f9630-5807-44e2-a274-1361250284c7
-description: Detects the execution of Windows Sandbox processes, which may be used to hide malicious activity.
-references:
-     - <replace-with-trr-link>
-author: Jordan Anderson (iwillkeepwatch)
-date: 2026-01-23
-tags:
-    - attack.defense-evasion
-    - attack.t1564.006
-status: test
-logsource:
-    category: process_create
-    product: windows
-detection:
-    selection:
-        Image|endswith:
-            - '\WindowsSandbox.exe'
-    condition: selection
-level: informational
-```
 
 ## Available Emulation Tests
 
@@ -382,7 +314,6 @@ level: informational
 - [Microsoft Learn: Windows Sandbox overview][ref-17]
 - [Check Point Research: Playing in the Windows Sandbox][ref-18]
 - [Microsoft Learn: Windows Sandbox configuration file][ref-19]
-- [SigmaHQ: Pipelines][ref-20]
 - [Atomic Red Team: T1564.006][ref-21]
 
 [ref-1]: https://attack.mitre.org/techniques/T1564/006/
@@ -404,7 +335,6 @@ level: informational
 [ref-17]: https://learn.microsoft.com/en-us/windows/security/application-security/application-isolation/windows-sandbox/windows-sandbox-overview
 [ref-18]: https://research.checkpoint.com/2021/playing-in-the-windows-sandbox/
 [ref-19]: https://learn.microsoft.com/en-us/windows/security/application-security/application-isolation/windows-sandbox/windows-sandbox-configure-using-wsb-file
-[ref-20]: https://sigmahq.io/docs/digging-deeper/pipelines.html#query-expression-placeholders
 [ref-21]: https://www.atomicredteam.io/atomic-red-team/atomics/T1564.006#atomic-test-3---create-and-start-hyper-v-virtual-machine
 
 [^ref-4]: [Splunk: Event ID 7045][ref-4]
