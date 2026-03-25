@@ -1,6 +1,7 @@
 ##############################################################################
 ################################## IMPORTS ###################################
 ##############################################################################
+import io
 import os
 import re
 import datetime
@@ -14,26 +15,26 @@ import json
 def parse_meta_table(meta_table):
     temp_dict = {}
     for line in meta_table[3:]:
-        if len(line) != 0:
-            elements = line.split("|")
-            temp_dict[elements[1].strip()] = elements[2].strip()
+        if line.strip():
+            elements = line.strip("|").split("|")
+            temp_dict[elements[0].strip()] = elements[1].strip()
     return temp_dict
 
 def parse_proc_table(proc_table):
     procs={}
     for line in proc_table[3:]:
-       if len(line) != 0:
-           elements = line.split("|")
-           procs[elements[1].split(".")[-1].strip()] = elements[2].strip()
+        if line.strip():
+            elements = line.strip("|").split("|")
+            procs[elements[0].split(".")[-1].strip()] = elements[1].strip()
     return procs
 
 def parse_test_table(test_table, ref_links):
     tests = {}
     for line in test_table[3:]:
-        if len(line) != 0:
-            elements = line.split("|")
-            letter = elements[1].split(".")[-1].strip()
-            link_field = elements[2].strip()
+        if line.strip():
+            elements = line.strip("|").split("|")
+            letter = elements[0].split(".")[-1].strip()
+            link_field = elements[1].strip()
 
             if not link_field or link_field.lower() == "none":
                 tests[letter] = None
@@ -69,7 +70,6 @@ def parse_trr_meta(TRR_path):
     for m in re.finditer(r'^\[([^\]]+)\]:\s+(\S+)', content, re.MULTILINE):
         ref_links[m.group(1).lower()] = m.group(2)
 
-    import io
     file = io.StringIO(content)
 
     #Parse the TRR README.md line by line
